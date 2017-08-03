@@ -1,0 +1,32 @@
+.keyboard {
+	color: rgb(126, 126, 126);
+	cursor: pointer;
+	display: inline-block;
+	font-family: GurbaniAkharHeavy;
+	font-size: 4rem;
+}
+
+.keyboard-row {
+	border-bottom: 4px solid grey;
+	padding: 4px;
+}
+
+.keyboard-group {
+	display: inline-block;
+}
+
+.keyboard-group.alt {
+	background-color: rgb(25, 25, 25);
+}
+
+.keyboard-letter {
+	border: 1px solid grey;
+	border-radius: 0.7rem;
+	cursor: pointer;
+	display: inline-block;
+	height: 5rem;
+	margin-left: 0.25rem;
+	margin-right: 0.25rem;
+	text-align: center;
+	width: 5rem;
+}
