@@ -1,5 +1,12 @@
+
 :root {
-	--main-border-color: rgb(123, 28, 28);
+	--main-border-color: rgb(37, 57, 95);
+}
+
+@font-face {
+	font-family: Prabhki;
+	src: local("Prabhki"),
+		url(resources/Prabhki.ttf);
 }
 
 html,
@@ -14,14 +21,14 @@ body {
 }
 
 body {
-	background-color: rgb(135, 119, 93);
+	background-color: rgb(46, 70, 117);
 }
 
 .container {
-	background-color: rgb(192, 193, 162);
+	background-color: rgb(168, 168, 168);
 	border-left: 1em solid var(--main-border-color);
 	border-right: 2px solid var(--main-border-color);
-	color: rgb(41, 95, 97);
+	color: rgb(120, 69, 59);
 	font-family: Corbel, sans-serif;
 	font-size: 1.3rem;
 	height: 100%;
@@ -32,6 +39,18 @@ body {
 	width: 70rem;
 }
 
-.butz {
-	margin-top: 20px;
+header {
+	border-bottom: 2px solid var(--main-border-color);
+}
+
+button {
+	border: 2px solid green;
+	border-radius: 6px;
+	padding: 0.5rem;
+}
+
+.prabhki {
+	font-family: Prabhki;
+	font-size: 3.5rem;
+	vertical-align: sub;
 }
