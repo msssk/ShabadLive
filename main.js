@@ -15,3 +15,21 @@
 	const demoButton1 = document.getElementById('demo1');
 	demoButton1.addEventListener('click', showSearchDemo);
 })();
+
+(function () {
+	const mtl = document.getElementById('mtl');
+
+	function mtlf () {
+		let href = 'mailto';
+		href += '\u003A';
+		href += 'mangala';
+		href += '\u0040';
+		href += 'khalsa';
+		href += '\u002E';
+		href += 'com';
+		mtl.href = href;
+		mtl.removeEventListener('mouseenter', mtlf);
+	}
+
+	mtl.addEventListener('mouseenter', mtlf);
+})();
