@@ -4,6 +4,12 @@
 }
 
 @font-face {
+	font-family: GurbaniHindi;
+	src: local("GurbaniHindi"),
+		url(resources/GurbaniHindi.ttf);
+}
+
+@font-face {
 	font-family: Prabhki;
 	src: local("Prabhki"),
 		url(resources/Prabhki.ttf);
