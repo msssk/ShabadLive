@@ -1,6 +1,7 @@
 
 :root {
 	--main-border-color: rgb(37, 57, 95);
+	--icon-color: rgb(230, 230, 230);
 }
 
 @font-face {
@@ -28,6 +29,7 @@ body {
 
 body {
 	background-color: rgb(46, 70, 117);
+	overflow: auto;
 }
 
 .container {
@@ -37,10 +39,8 @@ body {
 	color: rgb(120, 69, 59);
 	font-family: Corbel, sans-serif;
 	font-size: 1.3rem;
-	height: 100%;
 	margin-left: auto;
 	margin-right: auto;
-	overflow: auto;
 	padding: 1em;
 	position: relative;
 	width: 70rem;
@@ -50,7 +50,7 @@ header {
 	border-bottom: 2px solid var(--main-border-color);
 }
 
-button {
+.demoButton {
 	border: 2px solid green;
 	border-radius: 6px;
 	padding: 0.5rem;
@@ -60,20 +60,27 @@ button {
 	display: none;
 }
 
-.prabhki {
-	font-family: Prabhki;
+.title {
 	font-size: 3.5rem;
 	vertical-align: sub;
 }
 
 #searchDemo {
 	background-color: grey;
-	left: auto;
 	padding: 1rem;
 	position: absolute;
-	right: auto;
 	top: 5vh;
 	width: 60rem;
+}
+
+#shabadDemo {
+	background-color: grey;
+	height: 94vh;
+	left: 2vw;
+	padding: 1rem;
+	position: absolute;
+	top: 2vh;
+	width: 94vw;
 }
 
 .searchImage {
@@ -84,10 +91,84 @@ button {
 }
 
 .close {
-	color: rgb(230, 230, 230);
+	color: var(--icon-color);
 	cursor: pointer;
 	font-size: 3rem;
 	position: absolute;
-	right: 1rem;
-	top: 0.3rem;
+	right: 0.2rem;
+	top: -0.7rem;
+}
+
+.wrapper {
+	height: 95%;
+	margin-top: 2em;
+	padding-top: 1em;
+	position: relative;
+}
+
+.shabad {
+	display: inline-block;
+	font-size: 1em;
+	position: absolute;
+	text-align: center;
+}
+
+.line {
+	font-family: Corbel, Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	margin: auto;
+	width: 12em;
+}
+
+.gurbani {
+	font-family: GurbaniAkharHeavy;
+}
+
+.hindi {
+	font-family: GurbaniHindi;
+}
+
+.prabhki {
+	font-family: Prabhki;
+}
+
+.theme1 {
+	background-color: rgb(4, 4, 24);
+	color: rgb(185, 184, 184);
+	height: 100%;
+}
+
+.theme2 {
+	background-color: rgb(187, 122, 82);
+	color: rgb(33, 56, 121);
+	height: 100%;
+}
+
+.theme3 {
+	background-color: rgb(240, 237, 215);
+	color: rgb(62, 62, 60);
+	height: 100%;
+}
+
+.navicon {
+	color: var(--icon-color);
+	cursor: pointer;
+	font-family: Consolas, Menlo, Monaco, mono;
+	font-size: 8rem;
+	font-weight: bold;
+	position: absolute;
+	z-index: 10;
+	-webkit-text-stroke: 4px rgb(98, 98, 98);
+}
+
+.next {
+	/* ▶▷ */
+	right: 0;
+	top: 35%;
+}
+
+.prev {
+	/* ◀◁ */
+	left: 0;
+	top: 35%;
 }

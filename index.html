@@ -10,7 +10,7 @@
 	<body>
 		<div class="container">
 			<header>
-				<h1><span class="prabhki" title="Shabad">Sbd</span>Live: shabad search and display</h1>
+				<h1><span class="title prabhki" title="Shabad">Sbd</span>Live: shabad search and display</h1>
 			</header>
 
 			<main>
@@ -23,15 +23,15 @@
 					well as computers, so that the person controlling the display can sit comfortably with the sangat
 					and enjoy the kirtan.
 				</p>
-				<div><button id="demo1">View Demo</button></div>
+				<div><button class="demoButton" data-demo-id="searchDemo">View Demo</button></div>
 
 				<h2>What will it look like?</h2>
 				<p>
 					However you want! Some nice defaults will be included, but anyone with some basic HTML knowledge
 					will be able to fully customize the display, including background, font, and colors. This enables
-					everyone to create the best looking display that integrates well with the surroundings.
+					everyone to create the best looking display that integrates well with its surroundings.
 				</p>
-				<div><button id="demo2">View Demo</button></div>
+				<div><button class="demoButton" data-demo-id="shabadDemo">View Demo</button></div>
 
 				<h2>What are some interesting features?</h2>
 				<p>
@@ -68,6 +68,35 @@
 			<div id="searchDemo" class="hidden">
 				<div class="close">🗙</div>
 				<div class="searchImage"></div>
+			</div>
+		</div>
+
+		<div id="shabadDemo" class="hidden">
+			<div class="close">🗙</div>
+			<div class="navicon prev">&lt;</div>
+			<div class="navicon next">&gt;</div>
+
+			<div class="wrapper">
+				<div class="theme1">
+					<div class="shabad">
+						<div class="line gurbani">DMnu DMnu rwmdws guru<br>ijin isirAw iqnY svwirAw ]</div>
+						<div class="line en">Blessed, blessed is Guru Raam Daas;<br>He who created You has also exalted You.</div>
+					</div>
+				</div>
+
+				<div class="theme2 hidden">
+					<div class="shabad">
+						<div class="line prabhki">DMnu DMnu rwmdws guru<br>ijin isirAw iqnY svwirAw ]</div>
+						<div class="line en">dhann dhann raamadaas gur<br>jin siriaa tinai savaariaa ||</div>
+					</div>
+				</div>
+
+				<div class="theme3 hidden">
+					<div class="shabad">
+						<div class="line hindi">DMnu DMnu rwmdws guru<br>ijin isirAw iqnY svwirAw ]</div>
+						<div class="line es">Oh bendito seas, Guru Ram<br>Das pues Aquél que te creó<br>también te embelleció.</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
