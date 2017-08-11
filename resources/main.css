@@ -168,7 +168,7 @@ header {
 	color: var(--icon-color);
 	cursor: pointer;
 	font-family: Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", mono;
-	font-size: 8rem;
+	font-size: 10rem;
 	font-weight: bold;
 	position: absolute;
 	z-index: 10;
