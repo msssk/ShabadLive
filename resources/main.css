@@ -1,19 +1,28 @@
 
 :root {
-	--main-border-color: rgb(37, 57, 95);
+	--flat-bg-color: rgb(30, 34, 77);
+	--content-bg-color: rgb(190, 190, 190);
+	--content-text-color: rgb(0, 0, 0);
+	--main-border-color: rgb(102, 106, 153);
 	--icon-color: rgb(230, 230, 230);
+}
+
+@font-face {
+	font-family: GurbaniAkharHeavy;
+	src: local("GurbaniAkharHeavy"),
+		url(GurbaniAkharHeavy.ttf);
 }
 
 @font-face {
 	font-family: GurbaniHindi;
 	src: local("GurbaniHindi"),
-		url(resources/GurbaniHindi.ttf);
+		url(GurbaniHindi.ttf);
 }
 
 @font-face {
 	font-family: Prabhki;
 	src: local("Prabhki"),
-		url(resources/Prabhki.ttf);
+		url(Prabhki.ttf);
 }
 
 html,
@@ -28,16 +37,16 @@ body {
 }
 
 body {
-	background-color: rgb(46, 70, 117);
+	background-color: var(--flat-bg-color);
 	overflow: auto;
 }
 
 .container {
-	background-color: rgb(168, 168, 168);
+	background-color: var(--content-bg-color);
 	border-left: 1em solid var(--main-border-color);
 	border-right: 2px solid var(--main-border-color);
-	color: rgb(120, 69, 59);
-	font-family: Corbel, sans-serif;
+	color: var(--content-text-color);
+	font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans serif;
 	font-size: 1.3rem;
 	margin-left: auto;
 	margin-right: auto;
@@ -51,8 +60,12 @@ header {
 }
 
 .demoButton {
-	border: 2px solid green;
+	background-color: rgb(225, 143, 35);
+	border: 2px solid var(--main-border-color);
 	border-radius: 6px;
+	color: rgb(76, 19, 6);
+	cursor: pointer;
+	font-weight: bold;
 	padding: 0.5rem;
 }
 
@@ -67,16 +80,18 @@ header {
 
 #searchDemo {
 	background-color: grey;
+	left: 15vw;
 	padding: 1rem;
 	position: absolute;
-	top: 5vh;
-	width: 60rem;
+	top: 2vh;
+	width: 70vw;
 }
 
 #shabadDemo {
 	background-color: grey;
 	height: 94vh;
 	left: 2vw;
+	overflow: hidden;
 	padding: 1rem;
 	position: absolute;
 	top: 2vh;
@@ -102,7 +117,6 @@ header {
 .wrapper {
 	height: 95%;
 	margin-top: 2em;
-	padding-top: 1em;
 	position: relative;
 }
 
@@ -114,7 +128,7 @@ header {
 }
 
 .line {
-	font-family: Corbel, Verdana, Geneva, Tahoma, sans-serif;
+	font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
 	font-weight: bold;
 	margin: auto;
 	width: 12em;
@@ -139,21 +153,21 @@ header {
 }
 
 .theme2 {
-	background-color: rgb(187, 122, 82);
-	color: rgb(33, 56, 121);
+	background-color: rgb(201, 104, 45);
+	color: rgb(18, 53, 152);
 	height: 100%;
 }
 
 .theme3 {
-	background-color: rgb(240, 237, 215);
-	color: rgb(62, 62, 60);
+	background-color: rgb(216, 210, 166);
+	color: rgb(101, 30, 30);
 	height: 100%;
 }
 
 .navicon {
 	color: var(--icon-color);
 	cursor: pointer;
-	font-family: Consolas, Menlo, Monaco, mono;
+	font-family: Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", mono;
 	font-size: 8rem;
 	font-weight: bold;
 	position: absolute;
@@ -171,4 +185,14 @@ header {
 	/* ◀◁ */
 	left: 0;
 	top: 35%;
+}
+
+@media (max-width: 1366px) {
+	html {
+		font-size: 14px;
+	}
+
+	#shabadDemo {
+		height: 93vh;
+	}
 }

@@ -76,6 +76,21 @@
 	});
 
 	document.body.addEventListener('keydown', function (event) {
+		switch (event.keyCode) {
+			case /* escape */ 27:
+				hideDemo();
+				break;
+
+			case /* left */ 37:
+			case /* up   */ 38:
+				rotateShabad('prev');
+				break;
+
+			case /* right */ 39:
+			case /* down  */ 40:
+				rotateShabad('next');
+				break;
+		}
 		if (event.keyCode === /* escape */ 27) {
 			hideDemo();
 		}
@@ -93,9 +108,9 @@
 		href += 'khalsa';
 		href += '\u002E';
 		href += 'com';
-		mtl.href = href;
-		mtl.removeEventListener('mouseenter', mtlf);
+		mtl.href = href + '?subject=ShabadLive development support';
+		mtl.removeEventListener('click', mtlf);
 	}
 
-	mtl.addEventListener('mouseenter', mtlf);
+	mtl.addEventListener('click', mtlf);
 })();
