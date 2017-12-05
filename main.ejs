@@ -40,6 +40,8 @@
 	}
 
 	function rotateShabad (direction) {
+		let nextNode;
+
 		if (direction === 'prev') {
 			nextNode = activeShabad.parentElement.previousElementSibling;
 			if (!nextNode) {
@@ -95,7 +97,7 @@
 			hideDemo();
 		}
 	});
-})();
+}());
 
 (function () {
 	const mtl = document.getElementById('mtl');
@@ -113,4 +115,4 @@
 	}
 
 	mtl.addEventListener('click', mtlf);
-})();
+}());
