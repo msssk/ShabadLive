@@ -1,0 +1,29 @@
+{
+  "name": "shabad-live",
+  "version": "0.0.1",
+  "description": "Shabad Live shabad presenter",
+  "main": "src/server/server.js",
+  "scripts": {
+    "serve": "node src/server/server.js"
+  },
+  "dependencies": {
+    "ws": "^6.0.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msssk/ShabadLive.git"
+  },
+  "keywords": [
+    "shabad",
+    "sabd",
+    "kirtan",
+    "gurbani"
+  ],
+  "author": "Mangala Sadhu Sangeet Singh Khalsa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msssk/ShabadLive/issues"
+  },
+  "homepage": "https://github.com/msssk/ShabadLive#readme"
+}

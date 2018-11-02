@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ShabadLive</title>
+		<link rel="stylesheet" href="search.css">
+	</head>
+
+	<body>
+		<header>
+			<form id="searchForm">
+				<div class="search-input">
+					<input name="term" type="text" autocomplete="off">
+					<span class="delete-icon">🗙</span>
+				</div>
+			</form>
+		</header>
+
+		<main class="main">
+			<nav>
+				<div id="waiting" class="waiting" hidden="true">⏳</div>
+				<table class="results">
+					<tbody id="results"></tbody>
+				</table>
+			</nav>
+
+			<div id="shabad" class="shabad"></div>
+		</main>
+
+		<script type="module" src="search.js"></script>
+	</body>
+</html>

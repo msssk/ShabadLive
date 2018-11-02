@@ -1,0 +1,12 @@
+@import 'main.css';
+
+.shabad {
+	font-family: GurbaniAkharHeavy;
+	font-size: 2.75rem;
+}
+
+.en,
+.es,
+.tl {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

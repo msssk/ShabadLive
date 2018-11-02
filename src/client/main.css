@@ -1,0 +1,21 @@
+@import 'fonts.css';
+
+html,
+body {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	font-size: 10px;
+}
+
+body {
+	background-color: black;
+	color: grey;
+	padding: 1em;
+}
+
+* {
+	box-sizing: border-box;
+}

@@ -1,5 +1,5 @@
 export default {
-	create() {
+	create () {
 		const mainAlphabet = [
 			'a', 'A', 'e', 's', 'h',
 			'k', 'K', 'g', 'G', '|',
@@ -8,7 +8,7 @@ export default {
 			'q', 'Q', 'd', 'D', 'n',
 			'p', 'P', 'b', 'B', 'm',
 			'X', 'r', 'l', 'v', 'V',
-			'S', '^', 'Z', 'z', '&'
+			'S', '^', 'Z', 'z', '&',
 		];
 		const node = document.createElement('div');
 		node.className = 'keyboard';
@@ -47,7 +47,7 @@ export default {
 		});
 
 		return {
-			node
+			node,
 		};
-	}
+	},
 };
