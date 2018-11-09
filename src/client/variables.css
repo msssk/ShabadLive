@@ -1,0 +1,10 @@
+:root {
+	--body-color: grey;
+	--background-color: hsl(232, 44%, 11%);
+	--header-color: hsl(214, 16%, 40%);
+	--header-bg-color: hsl(232, 27%, 19%);
+	--header-border-color: hsl(232, 24%, 21%);
+	--dialog-color: hsl(218, 25%, 54%);
+	--dialog-bg-color: hsl(232, 23%, 22%);
+	--dialog-border-color: hsl(232, 51%, 23%);
+}

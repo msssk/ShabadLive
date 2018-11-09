@@ -6,36 +6,30 @@ const cache = Object.create(null);
 
 const searchForm = document.getElementById('searchForm');
 const waitingNode = document.getElementById('waiting');
-const socket = new WebSocket(`ws://${window.location.hostname}:8080`);
+const wsHost = `${window.location.hostname}:8080`;
+const socket = new WebSocket(`ws://${wsHost}`);
 
 const resultsComponent = new ResultsList(document.getElementById('results'));
 const shabadComponent = new Shabad(document.getElementById('shabad'));
 
 resultsComponent.onSelectShabad = async function (shabadId) {
-	const shabad = await api.getShabadById(shabadId);
+	let shabad = cache[shabadId];
+	if (!shabad) {
+		shabad = await api.getShabadById(shabadId);
+		cache[shabadId] = shabad;
+		socket.send(JSON.stringify({
+			type: 'shabad',
+			shabad,
+		}));
+	}
 	shabadComponent.shabad = shabad;
-	cache[shabad.shabadinfo.shabadid] = shabad;
 };
 
 shabadComponent.onSelectLine = function (line) {
-	const shabad = cache[line.shabadId];
-	shabad.sent = shabad.sent || Object.create(null);
-	if (!shabad.sent[line.id]) {
-		const fullLine = shabad.shabad[line.index].line;
-		Object.assign(line, {
-			dv: fullLine.transliteration.devanagari.text,
-			en: fullLine.translation.english.default,
-			es: fullLine.translation.spanish,
-			gu: fullLine.gurmukhi.akhar,
-			lv: fullLine.larivaar.akhar,
-			pa: fullLine.translation.punjabi.default.akhar,
-			tl: fullLine.transliteration.english.text,
-		});
-
-		shabad.sent[line.id] = true;
-	}
-
-	socket.send(JSON.stringify(line));
+	socket.send(JSON.stringify({
+		type: 'line',
+		line,
+	}));
 };
 
 searchForm.addEventListener('submit', async function (event) {

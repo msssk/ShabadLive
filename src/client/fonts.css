@@ -1,17 +1,17 @@
 @font-face {
 	font-family: GurbaniAkhar;
 	src: local("GurbaniAkhar"),
-		url(resources/fonts/GurbaniAkhar.ttf);
+		url(../../resources/fonts/GurbaniAkhar.ttf);
 }
 
 @font-face {
 	font-family: GurbaniAkharHeavy;
 	src: local("GurbaniAkharHeavy"),
-		url(resources/fonts/GurbaniAkharHeavy.ttf);
+		url(../../resources/fonts/GurbaniAkharHeavy.ttf);
 }
 
 @font-face {
 	font-family: Prabhki;
 	src: local("Prabhki"),
-		url(resources/fonts/Prabhki.ttf);
+		url(../../resources/fonts/Prabhki.ttf);
 }

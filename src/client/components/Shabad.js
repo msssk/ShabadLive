@@ -1,9 +1,6 @@
-class Shabad {
-	constructor (node) {
-		this.node = node;
-		this.init();
-	}
+import { Component } from './Component.js';
 
+class Shabad extends Component {
 	get shabad () {
 		return this._shabad;
 	}
@@ -13,6 +10,7 @@ class Shabad {
 	}
 
 	init () {
+		this._linesById = Object.create(null);
 		this.node.addEventListener('click', this._onClick.bind(this));
 	}
 
@@ -24,33 +22,42 @@ class Shabad {
 		this._selectedLineNode = lineNode;
 		lineNode.classList.toggle('selected');
 
-		this.onSelectLine && this.onSelectLine({
+		this.onSelectLine({
 			id: lineNode.dataset.lineId,
-			index: lineNode.dataset.lineIndex,
-			shabadId: lineNode.dataset.shabadId,
+			shabadId: this.shabad.id,
 		});
 	}
 
-	onSelectLine () {
-		/* eslint-disable-next-line no-console */
-		console.warn('NOT IMPLEMENTED');
-	}
+	onSelectLine () {}
 
 	render () {
-		const fragment = document.createDocumentFragment();
-		const shabadId = this.shabad.shabadinfo.shabadid;
-
-		this.shabad.shabad.forEach(function ({ line }, index) {
-			const div = document.createElement('div');
-			div.className = 'line';
-			div.textContent = line.gurmukhi.akhar;
-			div.dataset.shabadId = shabadId;
-			div.dataset.lineId = line.id;
-			div.dataset.lineIndex = index;
-			fragment.appendChild(div);
-		});
-
 		this.node.innerHTML = '';
+
+		if (!this.shabad) {
+			return;
+		}
+
+		const fragment = document.createDocumentFragment();
+
+		this.shabad.lines.forEach(function (line) {
+			const lineWrapper = document.createElement('div');
+			lineWrapper.className = 'line';
+			this._linesById[line.id] = lineWrapper;
+
+			Object.entries(line).forEach(function ([ lang, text ]) {
+				if (lang === 'id') {
+					return;
+				}
+
+				const div = document.createElement('div');
+				div.className = lang;
+				div.textContent = text;
+				lineWrapper.appendChild(div);
+			});
+
+			fragment.appendChild(lineWrapper);
+		}, this);
+
 		this.node.appendChild(fragment);
 	}
 }

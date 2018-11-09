@@ -8,10 +8,33 @@
 	</head>
 
 	<body>
+		<header hidden>
+			ShabadLive
+			<span id="configButton">⚙</span>
+		</header>
+
 		<main>
 			<div id="shabad" class="shabad"></div>
+
+			<form id="configForm" hidden>
+				<label><input name="gu" type="checkbox"> Gurmukhi</label>
+				<label><input name="tl" type="checkbox"> Transliteration</label>
+				<label><input name="en" type="checkbox"> English</label>
+				<label><input name="pa" type="checkbox"> Punjabi</label>
+				<label><input name="es" type="checkbox"> Español</label>
+				<label><input name="lv" type="checkbox"> Larivaar</label>
+				<label><input name="dv" type="checkbox"> देवनागरी</label>
+
+				<div class="actions">
+					<button id="cancelButton" type="button">Cancel</button>
+					<button id="saveButton" type="button">Save</button>
+				</div>
+			</form>
 		</main>
 
-		<script src="index.js"></script>
+		<script type="module" src="index.js"></script>
+		<script nomodule>
+			document.body.innerHTML = '<h1>Sorry, your browser is not supported</h1>';
+		</script>
 	</body>
 </html>
