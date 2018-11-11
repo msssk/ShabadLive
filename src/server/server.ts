@@ -1,17 +1,24 @@
+import * as WebSocket from 'ws';
+import { shabadUtil } from '../util/shabad';
+
+interface WsClient extends WebSocket {
+	id?: number;
+	config?: string;
+}
+
 const PORT_NUMBER = 8080;
-const WebSocket = require('ws');
 
 const server = new WebSocket.Server({
 	port: PORT_NUMBER,
 	clientTracking: true,
 	perMessageDeflate: true,
 });
-const activeConfigs = Object.create(null);
-const clientsByConfig = Object.create(null);
-const clientsById = Object.create(null);
-const shabadCache = Object.create(null);
+const activeConfigs: Record<string, LanguageConfig> = Object.create(null);
+const clientIdsByConfig: Record<string, number[]> = Object.create(null);
+const clientsById: Record<string, WebSocket> = Object.create(null);
+const shabadCache: Record<string, any> /* TODO */ = Object.create(null);
 
-const DEFAULT_CLIENT_CONFIG = {
+const DEFAULT_CLIENT_CONFIG: ClientConfig = {
 	languages: {
 		gu: true,
 		tl: true,
@@ -27,46 +34,31 @@ activeConfigs[JSON.stringify(DEFAULT_CLIENT_CONFIG.languages)] = DEFAULT_CLIENT_
 let getNextId = (function () {
 	let clientId = 1;
 
+	/* eslint-disable-next-line no-shadow */
 	return function getNextId () {
 		return clientId++;
 	};
 }());
 
-function getLine (lang, line) {
-	// TODO: special handling for lang: lv, tl, sm (Shahmukhi)
-	return line[lang];
-}
-
-function cacheShabad (shabad) {
+function cacheShabad (shabad: any /* TODO */) {
 	if (!shabadCache[shabad.id]) {
 		shabadCache[shabad.id] = Object.create(null);
 	}
 
-	Object.entries(activeConfigs).forEach(function ([ configKey, config ]) {
+	Object.entries(activeConfigs).forEach(function ([ configKey, languageConfig ]) {
 		shabadCache[shabad.id][configKey] = JSON.stringify({
 			type: 'shabad',
-			shabad: {
-				id: shabad.id,
-				lines: shabad.lines.reduce(function (sum, line) {
-					sum[line.id] = Object.create(null);
-					Object.entries(config).forEach(function ([ lang, enabled ]) {
-						if (enabled) {
-							sum[line.id][lang] = getLine(lang, line);
-						}
-					});
-
-					return sum;
-				}, Object.create(null)),
-			},
+			shabad: shabadUtil.filterLanguages(shabad, languageConfig),
 		});
 	});
 }
 
 server.on('listening', function () {
-	console.log('ShabadLive server listening on port ' + server.address().port);
+	const addressInfo = server.address() as WebSocket.AddressInfo;
+	console.log('ShabadLive server listening on port ' + addressInfo.port);
 });
 
-server.on('connection', function (client) {
+server.on('connection', function (client: WsClient) {
 	client.id = getNextId();
 	client.send(JSON.stringify({
 		type: 'handshake',
@@ -74,7 +66,7 @@ server.on('connection', function (client) {
 	}));
 	clientsById[client.id] = client;
 
-	client.on('message', function (messageString) {
+	client.on('message', function (messageString: string) {
 		const message = JSON.parse(messageString);
 
 		switch (message.type) {
@@ -82,11 +74,11 @@ server.on('connection', function (client) {
 				delete message.config.languages.lv; // handled client-side
 				client.config = JSON.stringify(message.config.languages);
 				activeConfigs[client.config] = message.config.languages;
-				if (clientsByConfig[client.config]) {
-					clientsByConfig[client.config].push(client.id);
+				if (clientIdsByConfig[client.config]) {
+					clientIdsByConfig[client.config].push(client.id);
 				}
 				else {
-					clientsByConfig[client.config] = [ client.id ];
+					clientIdsByConfig[client.config] = [ client.id ];
 				}
 
 				break;
@@ -109,12 +101,12 @@ server.on('connection', function (client) {
 	});
 });
 
-function broadcast (message) {
+function broadcast (message: any) {
 	// TODO: filter command clients out of broadcast
 
 	switch (message.type) {
 		case 'shabad': {
-			Object.entries(clientsByConfig).forEach(function ([ configKey, clientList ]) {
+			Object.entries(clientIdsByConfig).forEach(function ([ configKey, clientList ]) {
 				const messageString = shabadCache[message.id][configKey];
 
 				clientList.forEach(function (clientId) {
@@ -152,7 +144,7 @@ if (process.platform === 'win32') {
 		output: process.stdout,
 	});
 	readlineInterface.on('SIGINT', function () {
-		process.emit('SIGINT');
+		(process as any).emit('SIGINT');
 	});
 }
 

@@ -1,4 +1,4 @@
-@import 'main.css';
+@import './main.css';
 
 .search-input {
 	font-size: 4rem;
@@ -73,4 +73,10 @@
 
 .shabad .line.selected {
 	background-color: hsl(208, 40%, 17%);
+}
+
+.en,
+.es,
+.tl {
+	font-family: var(--primary-font);
 }

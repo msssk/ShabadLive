@@ -1,4 +1,4 @@
-import { Component } from './Component.js';
+import { Component } from './Component';
 
 const languages = [
 	'gu',
@@ -11,6 +11,10 @@ const languages = [
 ];
 
 class ClientConfigForm extends Component {
+	_config: LanguageConfig;
+	cancelButton: HTMLButtonElement;
+	saveButton: HTMLButtonElement;
+
 	get config () {
 		return this._config;
 	}
@@ -40,13 +44,11 @@ class ClientConfigForm extends Component {
 	}
 
 	_onClickSave () {
-		const newConfig = {
-			languages: languages.reduce(function (sum, language) {
-				sum[language] = this.node.elements[language].checked;
+		const newConfig: LanguageConfig = languages.reduce(function (sum: LanguageConfig, language: string) {
+			sum[language as PropertyName<LanguageConfig>] = this.node.elements[language].checked;
 
-				return sum;
-			}.bind(this), Object.create(null)),
-		};
+			return sum;
+		}.bind(this), Object.create(null)) as unknown as LanguageConfig;
 
 		if (JSON.stringify(newConfig) !== JSON.stringify(this.config)) {
 			this._config = newConfig;
@@ -55,7 +57,7 @@ class ClientConfigForm extends Component {
 	}
 
 	render () {
-		Object.entries(this.config.languages).forEach(function ([ language, enabled ]) {
+		Object.entries(this.config).forEach(function ([ language, enabled ]) {
 			this.node.elements[language].checked = enabled;
 		}, this);
 	}

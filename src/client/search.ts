@@ -1,13 +1,22 @@
-import api from './api.js';
-import { ResultsList } from './components/ResultsList.js';
-import { Shabad } from './components/Shabad.js';
+import api from './api';
+import { ResultsList } from './components/ResultsList';
+import { Shabad } from './components/Shabad';
+import { shabadUtil } from '../util/shabad';
 
 const cache = Object.create(null);
 
-const searchForm = document.getElementById('searchForm');
+const searchForm = document.getElementById('searchForm') as HTMLFormElement;
 const waitingNode = document.getElementById('waiting');
 const wsHost = `${window.location.hostname}:8080`;
 const socket = new WebSocket(`ws://${wsHost}`);
+
+const app = {
+	config: {
+		languages: {
+			gu: true,
+		},
+	},
+};
 
 const resultsComponent = new ResultsList(document.getElementById('results'));
 const shabadComponent = new Shabad(document.getElementById('shabad'));
@@ -22,7 +31,7 @@ resultsComponent.onSelectShabad = async function (shabadId) {
 			shabad,
 		}));
 	}
-	shabadComponent.shabad = shabad;
+	shabadComponent.shabad = shabadUtil.filterLanguages(shabad, app.config.languages);
 };
 
 shabadComponent.onSelectLine = function (line) {

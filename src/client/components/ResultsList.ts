@@ -1,6 +1,6 @@
-import { Component } from './Component.js';
+import { Component } from './Component';
 
-function createResultRow (shabad) {
+function createResultRow (shabad: any /* TODO */) {
 	const pageCell = document.createElement('td');
 	pageCell.className = 'page-column';
 	pageCell.textContent = shabad.pageno;
@@ -18,6 +18,8 @@ function createResultRow (shabad) {
 }
 
 class ResultsList extends Component {
+	_results: any; // TODO
+
 	get results () {
 		return this._results;
 	}
@@ -30,14 +32,14 @@ class ResultsList extends Component {
 		this.node.addEventListener('click', this._onClick.bind(this));
 	}
 
-	_onClick (event) {
-		const rowNode = event.target.parentElement;
+	_onClick (event: PointerEvent) {
+		const rowNode = (event.target as HTMLElement).parentElement;
 		const shabadId = rowNode.dataset.shabadId;
 
 		this.onSelectShabad(shabadId);
 	}
 
-	onSelectShabad () {}
+	onSelectShabad (shabadId: string) {}
 
 	render () {
 		this.node.innerHTML = '';
@@ -45,7 +47,7 @@ class ResultsList extends Component {
 		if (this.results) {
 			const fragment = document.createDocumentFragment();
 
-			this.results.shabads.forEach(function ({ shabad }) {
+			this.results.shabads.forEach(function ({ shabad }: any /* TODO */) {
 				fragment.appendChild(createResultRow(shabad));
 			});
 

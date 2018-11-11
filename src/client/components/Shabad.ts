@@ -1,6 +1,15 @@
-import { Component } from './Component.js';
+import { Component } from './Component';
+
+export interface LineInfo {
+	id: string;
+	shabadId: string;
+}
 
 class Shabad extends Component {
+	_linesById: Record<string, ShabadLine>;
+	_selectedLineNode: HTMLElement;
+	_shabad: ShabadInfo;
+
 	get shabad () {
 		return this._shabad;
 	}
@@ -14,8 +23,8 @@ class Shabad extends Component {
 		this.node.addEventListener('click', this._onClick.bind(this));
 	}
 
-	_onClick (event) {
-		const lineNode = event.target;
+	_onClick (event: MouseEvent) {
+		const lineNode = event.target as HTMLElement;
 		if (this._selectedLineNode) {
 			this._selectedLineNode.classList.toggle('selected');
 		}
@@ -28,7 +37,7 @@ class Shabad extends Component {
 		});
 	}
 
-	onSelectLine () {}
+	onSelectLine (lineInfo: LineInfo) {}
 
 	render () {
 		this.node.innerHTML = '';
@@ -39,7 +48,7 @@ class Shabad extends Component {
 
 		const fragment = document.createDocumentFragment();
 
-		this.shabad.lines.forEach(function (line) {
+		this.shabad.lines.forEach(function (this: Shabad, line) {
 			const lineWrapper = document.createElement('div');
 			lineWrapper.className = 'line';
 			this._linesById[line.id] = lineWrapper;

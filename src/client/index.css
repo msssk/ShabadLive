@@ -1,8 +1,8 @@
-@import 'main.css';
+@import './main.css';
 
 body {
 	background-color: var(--background-color);
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-family: var(--primary-font);
 }
 
 header {

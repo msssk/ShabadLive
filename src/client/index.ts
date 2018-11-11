@@ -1,11 +1,11 @@
-import { ClientConfigForm } from './components/ClientConfigForm.js';
-import { Shabad } from './components/Shabad.js';
+import { ClientConfigForm } from './components/ClientConfigForm';
+import { Shabad } from './components/Shabad';
 
 const STORAGE_KEY = 'shabad-live-data';
 const wsHost = `${window.location.hostname}:8080`;
 const socket = new WebSocket(`ws://${wsHost}`);
 
-const config = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+const config: ClientConfig = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
 	languages: {
 		gu: true,
 		tl: true,
@@ -17,7 +17,7 @@ const config = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
 	},
 };
 
-const shabadsById = Object.create(null);
+const shabadsById: Record<string, ShabadInfo> = Object.create(null);
 const shabadComponent = new Shabad(document.getElementById('shabad'));
 
 socket.addEventListener('message', function (event) {
@@ -33,7 +33,7 @@ socket.addEventListener('message', function (event) {
 		}
 
 		case 'shabad': {
-			shabadsById[message.shabadId] = message.shabad;
+			shabadsById[message.shabadId] = message.shabad as ShabadInfo;
 			shabadComponent.shabad = message.shabad;
 
 			break;
@@ -52,7 +52,7 @@ mainNode.addEventListener('click', function () {
 });
 
 const configForm = new ClientConfigForm(document.getElementById('configForm'), {
-	config,
+	config: config.languages,
 	onClose () {
 		this.node.hidden = true;
 	},
