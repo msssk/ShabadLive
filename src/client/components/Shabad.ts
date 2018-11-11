@@ -1,14 +1,23 @@
 import { Component } from './Component';
 
-export interface LineInfo {
-	id: string;
-	shabadId: string;
-}
-
 class Shabad extends Component {
-	_linesById: Record<string, ShabadLine>;
+	_linesById: Record<string, HTMLElement>;
+	_selectedLine: LineInfo;
 	_selectedLineNode: HTMLElement;
 	_shabad: ShabadInfo;
+
+	get selectedLine () {
+		return this._selectedLine;
+	}
+	set selectedLine (line: LineInfo) {
+		this._selectedLine = line;
+		if (this._selectedLineNode) {
+			this._selectedLineNode.classList.remove('selected');
+		}
+
+		this._selectedLineNode = this._linesById[line.id];
+		this._selectedLineNode.classList.add('selected');
+	}
 
 	get shabad () {
 		return this._shabad;
@@ -23,13 +32,13 @@ class Shabad extends Component {
 		this.node.addEventListener('click', this._onClick.bind(this));
 	}
 
-	_onClick (event: MouseEvent) {
-		const lineNode = event.target as HTMLElement;
+	_onClick (event: PointerEvent) {
+		const lineNode = (event.target as HTMLElement).parentElement;
 		if (this._selectedLineNode) {
-			this._selectedLineNode.classList.toggle('selected');
+			this._selectedLineNode.classList.remove('selected');
 		}
 		this._selectedLineNode = lineNode;
-		lineNode.classList.toggle('selected');
+		lineNode.classList.add('selected');
 
 		this.onSelectLine({
 			id: lineNode.dataset.lineId,
@@ -51,6 +60,7 @@ class Shabad extends Component {
 		this.shabad.lines.forEach(function (this: Shabad, line) {
 			const lineWrapper = document.createElement('div');
 			lineWrapper.className = 'line';
+			lineWrapper.dataset.lineId = line.id;
 			this._linesById[line.id] = lineWrapper;
 
 			Object.entries(line).forEach(function ([ lang, text ]) {

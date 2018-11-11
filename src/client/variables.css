@@ -8,4 +8,6 @@
 	--dialog-color: hsl(218, 25%, 54%);
 	--dialog-bg-color: hsl(232, 23%, 22%);
 	--dialog-border-color: hsl(232, 51%, 23%);
+	--line-hover-bg-color: hsl(222, 14%, 21%);
+	--line-selected-bg-color: hsl(208, 40%, 17%);
 }

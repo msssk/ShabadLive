@@ -5,8 +5,8 @@
   "main": "build/server.js",
   "scripts": {
     "build": "npm run build:server && npm run build:client",
-    "build:client": "parcel build src/client/index.html src/client/search.html --out-dir build/public --public-url ./ --experimental-scope-hoisting",
-    "build:server": "parcel build src/server/server.ts --out-dir build --target node",
+    "build:client": "parcel build src/client/index.html src/client/search.html --out-dir build/public --public-url ./ --experimental-scope-hoisting --detailed-report",
+    "build:server": "parcel build src/server/server.ts --out-dir build --target node --detailed-report",
     "dev": "parcel src/client/index.html src/client/search.html --out-dir build/public --port 8081",
     "serve": "node build/server.js"
   },

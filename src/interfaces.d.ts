@@ -12,6 +12,33 @@ interface LanguageConfig {
 		dv?: boolean;
 }
 
+interface LineInfo {
+	id: string;
+	shabadId: string;
+}
+
+interface ConfigMessage {
+	type: 'config';
+	config: ClientConfig;
+}
+
+interface HandshakeMessage {
+	type: 'handshake';
+	id: string;
+}
+
+interface LineMessage {
+	type: 'line';
+	lineInfo: LineInfo;
+}
+
+interface ShabadMessage {
+	type: 'shabad';
+	shabad: ShabadInfo;
+}
+
+type Message = ConfigMessage | HandshakeMessage | LineMessage | ShabadMessage;
+
 /**
  * Use this for strings that should refer to an existing property on a type
  */

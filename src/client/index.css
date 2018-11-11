@@ -73,9 +73,14 @@ main {
 	min-width: 5em;
 	padding: 0.2em;
 }
+
 .shabad {
 	font-family: GurbaniAkharHeavy;
 	font-size: 2.75rem;
+}
+
+.shabad .line.selected {
+	background-color: var(--line-selected-bg-color);
 }
 
 .en,

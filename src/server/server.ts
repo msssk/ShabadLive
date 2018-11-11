@@ -67,7 +67,7 @@ server.on('connection', function (client: WsClient) {
 	clientsById[client.id] = client;
 
 	client.on('message', function (messageString: string) {
-		const message = JSON.parse(messageString);
+		const message = JSON.parse(messageString) as Message;
 
 		switch (message.type) {
 			case 'config': {
@@ -86,28 +86,27 @@ server.on('connection', function (client: WsClient) {
 
 			case 'shabad': {
 				cacheShabad(message.shabad);
-				broadcast({
-					type: 'shabad',
-					id: message.shabad.id,
-				});
+				broadcast(message);
 
 				break;
 			}
 
-			default: {
+			case 'line': {
 				broadcast(message);
+
+				break;
 			}
 		}
 	});
 });
 
-function broadcast (message: any) {
+function broadcast (message: Message) {
 	// TODO: filter command clients out of broadcast
 
 	switch (message.type) {
 		case 'shabad': {
 			Object.entries(clientIdsByConfig).forEach(function ([ configKey, clientList ]) {
-				const messageString = shabadCache[message.id][configKey];
+				const messageString = shabadCache[message.shabad.id][configKey];
 
 				clientList.forEach(function (clientId) {
 					const client = clientsById[clientId];
@@ -121,10 +120,7 @@ function broadcast (message: any) {
 		}
 
 		case 'line': {
-			const messageString = JSON.stringify({
-				type: 'line',
-				line: message.line,
-			});
+			const messageString = JSON.stringify(message);
 
 			server.clients.forEach(function (client) {
 				if (client.readyState === WebSocket.OPEN) {

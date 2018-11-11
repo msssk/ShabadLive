@@ -3,7 +3,7 @@ import { ResultsList } from './components/ResultsList';
 import { Shabad } from './components/Shabad';
 import { shabadUtil } from '../util/shabad';
 
-const cache = Object.create(null);
+const cache: Record<string, ShabadInfo> = Object.create(null);
 
 const searchForm = document.getElementById('searchForm') as HTMLFormElement;
 const waitingNode = document.getElementById('waiting');
@@ -34,10 +34,10 @@ resultsComponent.onSelectShabad = async function (shabadId) {
 	shabadComponent.shabad = shabadUtil.filterLanguages(shabad, app.config.languages);
 };
 
-shabadComponent.onSelectLine = function (line) {
+shabadComponent.onSelectLine = function (lineInfo) {
 	socket.send(JSON.stringify({
 		type: 'line',
-		line,
+		lineInfo,
 	}));
 };
 

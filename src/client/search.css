@@ -68,11 +68,11 @@
 }
 
 .shabad .line:hover {
-	background-color: hsl(222, 14%, 21%);
+	background-color: var(--line-hover-bg-color);
 }
 
 .shabad .line.selected {
-	background-color: hsl(208, 40%, 17%);
+	background-color: var(--line-selected-bg-color);
 }
 
 .en,

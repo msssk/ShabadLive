@@ -20,8 +20,22 @@ const config: ClientConfig = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
 const shabadsById: Record<string, ShabadInfo> = Object.create(null);
 const shabadComponent = new Shabad(document.getElementById('shabad'));
 
+function getShabadById (shabadId: string): ShabadInfo {
+	if (shabadsById[shabadId]) {
+		return shabadsById[shabadId];
+	}
+	else {
+		socket.send(JSON.stringify({
+			type: 'getShabadById',
+			id: shabadId,
+		}));
+
+		return null;
+	}
+}
+
 socket.addEventListener('message', function (event) {
-	const message = JSON.parse(event.data);
+	const message = JSON.parse(event.data) as Message;
 
 	switch (message.type) {
 		case 'handshake': {
@@ -33,14 +47,22 @@ socket.addEventListener('message', function (event) {
 		}
 
 		case 'shabad': {
-			shabadsById[message.shabadId] = message.shabad as ShabadInfo;
+			shabadsById[message.shabad.id] = message.shabad as ShabadInfo;
 			shabadComponent.shabad = message.shabad;
 
 			break;
 		}
 
-		default: {
-			// TODO: showLine(message.line);
+		case 'line': {
+			if (shabadComponent.shabad.id !== message.lineInfo.shabadId) {
+				shabadComponent.shabad = getShabadById(message.lineInfo.shabadId);
+			}
+
+			if (shabadComponent.shabad) {
+				shabadComponent.selectedLine = message.lineInfo;
+			}
+
+			break;
 		}
 	}
 });
