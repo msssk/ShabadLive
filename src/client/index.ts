@@ -18,7 +18,9 @@ const config: ClientConfig = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
 };
 
 const shabadsById: Record<string, ShabadInfo> = Object.create(null);
-const shabadComponent = new Shabad(document.getElementById('shabad'));
+const shabadComponent = new Shabad(document.getElementById('shabad'), {
+	_onClick: function () {},
+});
 
 function getShabadById (shabadId: string): ShabadInfo {
 	if (shabadsById[shabadId]) {
@@ -26,7 +28,7 @@ function getShabadById (shabadId: string): ShabadInfo {
 	}
 	else {
 		socket.send(JSON.stringify({
-			type: 'getShabadById',
+			type: 'getShabad',
 			id: shabadId,
 		}));
 
@@ -54,7 +56,7 @@ socket.addEventListener('message', function (event) {
 		}
 
 		case 'line': {
-			if (shabadComponent.shabad.id !== message.lineInfo.shabadId) {
+			if (!shabadComponent.shabad || (shabadComponent.shabad.id !== message.lineInfo.shabadId)) {
 				shabadComponent.shabad = getShabadById(message.lineInfo.shabadId);
 			}
 
@@ -74,7 +76,7 @@ mainNode.addEventListener('click', function () {
 });
 
 const configForm = new ClientConfigForm(document.getElementById('configForm'), {
-	config: config.languages,
+	config,
 	onClose () {
 		this.node.hidden = true;
 	},

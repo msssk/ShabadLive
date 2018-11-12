@@ -83,6 +83,21 @@ main {
 	background-color: var(--line-selected-bg-color);
 }
 
+@media (orientation: landscape) and (max-height: 400px) {
+	.shabad .line {
+		display: none;
+	}
+
+	.shabad .line.selected {
+		display: block;
+		background-color: inherit;
+	}
+
+	.shabad .line > div {
+		display: inline-block;
+	}
+}
+
 .en,
 .es,
 .tl {

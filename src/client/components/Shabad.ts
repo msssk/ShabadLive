@@ -1,15 +1,25 @@
 import { Component } from './Component';
 
+let hasScrollIntoViewIfNeeded = false;
+let hasScrollIntoView = false;
+
 class Shabad extends Component {
 	_linesById: Record<string, HTMLElement>;
 	_selectedLine: LineInfo;
 	_selectedLineNode: HTMLElement;
 	_shabad: ShabadInfo;
 
+	constructor (node: HTMLElement, options: Record<string, any>) {
+		super(node, options);
+
+		hasScrollIntoViewIfNeeded = typeof (document.documentElement as any).scrollIntoViewIfNeeded === 'function';
+		hasScrollIntoView = typeof document.documentElement.scrollIntoView === 'function';
+	}
+
 	get selectedLine () {
 		return this._selectedLine;
 	}
-	set selectedLine (line: LineInfo) {
+	set selectedLine (this: Shabad, line: LineInfo) {
 		this._selectedLine = line;
 		if (this._selectedLineNode) {
 			this._selectedLineNode.classList.remove('selected');
@@ -17,6 +27,18 @@ class Shabad extends Component {
 
 		this._selectedLineNode = this._linesById[line.id];
 		this._selectedLineNode.classList.add('selected');
+
+		if (window.screen.orientation.type.includes('landscape')) {
+			const primaryLanguageNode = this._selectedLineNode.querySelector('.gu');
+			this._setNodeScale(primaryLanguageNode as HTMLElement);
+		}
+
+		if (hasScrollIntoViewIfNeeded) {
+			(this._selectedLineNode as any).scrollIntoViewIfNeeded();
+		}
+		else if (hasScrollIntoView) {
+			this._selectedLineNode.scrollIntoView();
+		}
 	}
 
 	get shabad () {
@@ -48,6 +70,21 @@ class Shabad extends Component {
 
 	onSelectLine (lineInfo: LineInfo) {}
 
+	_setNodeScale (node: HTMLElement) {
+		node.style.transform = 'scale(1)';
+
+		const windowHeight = window.innerHeight;
+		const windowWidth = window.innerWidth;
+		const dimensions = node.getBoundingClientRect();
+		const heightRatio = windowHeight / dimensions.height;
+		const widthRatio = windowWidth / dimensions.width;
+		const zoom = Math.min(heightRatio, widthRatio) * 0.94;
+
+		const translateX = (((windowWidth * 0.94) - dimensions.width) / 2) + 'px';
+		node.style.transform = `scale(${zoom}) translateX(${translateX})`;
+
+	}
+
 	render () {
 		this.node.innerHTML = '';
 
@@ -55,6 +92,7 @@ class Shabad extends Component {
 			return;
 		}
 
+		this.node.style.visibility = 'hidden';
 		const fragment = document.createDocumentFragment();
 
 		this.shabad.lines.forEach(function (this: Shabad, line) {
@@ -63,7 +101,7 @@ class Shabad extends Component {
 			lineWrapper.dataset.lineId = line.id;
 			this._linesById[line.id] = lineWrapper;
 
-			Object.entries(line).forEach(function ([ lang, text ]) {
+			Object.entries(line).forEach(function (this: Shabad, [ lang, text ]) {
 				if (lang === 'id') {
 					return;
 				}
@@ -72,12 +110,13 @@ class Shabad extends Component {
 				div.className = lang;
 				div.textContent = text;
 				lineWrapper.appendChild(div);
-			});
+			}, this);
 
 			fragment.appendChild(lineWrapper);
 		}, this);
 
 		this.node.appendChild(fragment);
+		this.node.style.visibility = '';
 	}
 }
 

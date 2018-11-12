@@ -22,6 +22,11 @@ interface ConfigMessage {
 	config: ClientConfig;
 }
 
+interface GetShabadMessage {
+	type: 'getShabad';
+	id: string;
+}
+
 interface HandshakeMessage {
 	type: 'handshake';
 	id: string;
@@ -37,7 +42,7 @@ interface ShabadMessage {
 	shabad: ShabadInfo;
 }
 
-type Message = ConfigMessage | HandshakeMessage | LineMessage | ShabadMessage;
+type Message = ConfigMessage | GetShabadMessage | HandshakeMessage | LineMessage | ShabadMessage;
 
 /**
  * Use this for strings that should refer to an existing property on a type

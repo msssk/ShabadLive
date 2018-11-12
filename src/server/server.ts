@@ -15,8 +15,8 @@ const server = new WebSocket.Server({
 });
 const activeConfigs: Record<string, LanguageConfig> = Object.create(null);
 const clientIdsByConfig: Record<string, number[]> = Object.create(null);
-const clientsById: Record<string, WebSocket> = Object.create(null);
-const shabadCache: Record<string, any> /* TODO */ = Object.create(null);
+const clientsById: Record<string, WsClient> = Object.create(null);
+const shabadCache: Record<string, Record<string, string>> = Object.create(null);
 
 const DEFAULT_CLIENT_CONFIG: ClientConfig = {
 	languages: {
@@ -40,7 +40,9 @@ let getNextId = (function () {
 	};
 }());
 
-function cacheShabad (shabad: any /* TODO */) {
+let currentLine: LineInfo;
+
+function cacheShabad (shabad: ShabadInfo) {
 	if (!shabadCache[shabad.id]) {
 		shabadCache[shabad.id] = Object.create(null);
 	}
@@ -81,6 +83,32 @@ server.on('connection', function (client: WsClient) {
 					clientIdsByConfig[client.config] = [ client.id ];
 				}
 
+				if (currentLine) {
+					if (client.readyState === WebSocket.OPEN) {
+						client.send(shabadCache[currentLine.shabadId][client.config]);
+
+						client.send(JSON.stringify({
+							type: 'line',
+							lineInfo: currentLine,
+						}));
+					}
+				}
+
+				break;
+			}
+
+			case 'getShabad': {
+				if (client.readyState === WebSocket.OPEN) {
+					client.send(shabadCache[message.id][client.config]);
+
+					if (currentLine) {
+						client.send(JSON.stringify({
+							type: 'line',
+							lineInfo: currentLine,
+						}));
+					}
+				}
+
 				break;
 			}
 
@@ -92,6 +120,7 @@ server.on('connection', function (client: WsClient) {
 			}
 
 			case 'line': {
+				currentLine = message.lineInfo;
 				broadcast(message);
 
 				break;
