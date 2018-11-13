@@ -6,7 +6,7 @@ interface WsClient extends WebSocket {
 	config?: string;
 }
 
-const PORT_NUMBER = 8080;
+const PORT_NUMBER = 8081;
 
 const server = new WebSocket.Server({
 	port: PORT_NUMBER,

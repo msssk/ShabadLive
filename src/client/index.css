@@ -96,6 +96,10 @@ main {
 	.shabad .line > div {
 		display: inline-block;
 	}
+
+	.shabad .gu {
+		white-space: nowrap;
+	}
 }
 
 .en,

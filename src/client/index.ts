@@ -2,7 +2,7 @@ import { ClientConfigForm } from './components/ClientConfigForm';
 import { Shabad } from './components/Shabad';
 
 const STORAGE_KEY = 'shabad-live-data';
-const wsHost = `${window.location.hostname}:8080`;
+const wsHost = `${window.location.hostname}:8081`;
 const socket = new WebSocket(`ws://${wsHost}`);
 
 const config: ClientConfig = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
@@ -19,6 +19,7 @@ const config: ClientConfig = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
 
 const shabadsById: Record<string, ShabadInfo> = Object.create(null);
 const shabadComponent = new Shabad(document.getElementById('shabad'), {
+	isViewer: true,
 	_onClick: function () {},
 });
 

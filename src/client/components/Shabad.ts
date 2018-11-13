@@ -1,4 +1,5 @@
 import { Component } from './Component';
+import { font } from '../../util/font';
 
 let hasScrollIntoViewIfNeeded = false;
 let hasScrollIntoView = false;
@@ -8,12 +9,18 @@ class Shabad extends Component {
 	_selectedLine: LineInfo;
 	_selectedLineNode: HTMLElement;
 	_shabad: ShabadInfo;
+	/**
+	 * If true the Shabad is rendering in a viewer client (as opposed to a search client)
+	 */
+	isViewer?: boolean;
 
 	constructor (node: HTMLElement, options: Record<string, any>) {
 		super(node, options);
 
-		hasScrollIntoViewIfNeeded = typeof (document.documentElement as any).scrollIntoViewIfNeeded === 'function';
-		hasScrollIntoView = typeof document.documentElement.scrollIntoView === 'function';
+		if (this.isViewer) {
+			hasScrollIntoViewIfNeeded = typeof (document.documentElement as any).scrollIntoViewIfNeeded === 'function';
+			hasScrollIntoView = typeof document.documentElement.scrollIntoView === 'function';
+		}
 	}
 
 	get selectedLine () {
@@ -28,16 +35,20 @@ class Shabad extends Component {
 		this._selectedLineNode = this._linesById[line.id];
 		this._selectedLineNode.classList.add('selected');
 
-		if (window.screen.orientation.type.includes('landscape')) {
-			const primaryLanguageNode = this._selectedLineNode.querySelector('.gu');
-			this._setNodeScale(primaryLanguageNode as HTMLElement);
-		}
+		if (this.isViewer) {
+			if (window.screen.orientation.type.includes('landscape')) {
+				const primaryLanguageNode = this._selectedLineNode.querySelector('.gu');
+				font.fitContainer(primaryLanguageNode as HTMLElement, {
+					tweakFactor: 0.92,
+				});
+			}
 
-		if (hasScrollIntoViewIfNeeded) {
-			(this._selectedLineNode as any).scrollIntoViewIfNeeded();
-		}
-		else if (hasScrollIntoView) {
-			this._selectedLineNode.scrollIntoView();
+			if (hasScrollIntoViewIfNeeded) {
+				(this._selectedLineNode as any).scrollIntoViewIfNeeded();
+			}
+			else if (hasScrollIntoView) {
+				this._selectedLineNode.scrollIntoView();
+			}
 		}
 	}
 
@@ -51,7 +62,10 @@ class Shabad extends Component {
 
 	init () {
 		this._linesById = Object.create(null);
-		this.node.addEventListener('click', this._onClick.bind(this));
+
+		if (!this.isViewer) {
+			this.node.addEventListener('click', this._onClick.bind(this));
+		}
 	}
 
 	_onClick (event: PointerEvent) {
@@ -69,21 +83,6 @@ class Shabad extends Component {
 	}
 
 	onSelectLine (lineInfo: LineInfo) {}
-
-	_setNodeScale (node: HTMLElement) {
-		node.style.transform = 'scale(1)';
-
-		const windowHeight = window.innerHeight;
-		const windowWidth = window.innerWidth;
-		const dimensions = node.getBoundingClientRect();
-		const heightRatio = windowHeight / dimensions.height;
-		const widthRatio = windowWidth / dimensions.width;
-		const zoom = Math.min(heightRatio, widthRatio) * 0.94;
-
-		const translateX = (((windowWidth * 0.94) - dimensions.width) / 2) + 'px';
-		node.style.transform = `scale(${zoom}) translateX(${translateX})`;
-
-	}
 
 	render () {
 		this.node.innerHTML = '';

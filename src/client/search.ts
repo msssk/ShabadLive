@@ -7,7 +7,7 @@ const cache: Record<string, ShabadInfo> = Object.create(null);
 
 const searchForm = document.getElementById('searchForm') as HTMLFormElement;
 const waitingNode = document.getElementById('waiting');
-const wsHost = `${window.location.hostname}:8080`;
+const wsHost = `${window.location.hostname}:8081`;
 const socket = new WebSocket(`ws://${wsHost}`);
 
 const app = {
