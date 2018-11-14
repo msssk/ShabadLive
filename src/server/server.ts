@@ -31,10 +31,10 @@ const DEFAULT_CLIENT_CONFIG: ClientConfig = {
 
 activeConfigs[JSON.stringify(DEFAULT_CLIENT_CONFIG.languages)] = DEFAULT_CLIENT_CONFIG.languages;
 
-let getNextId = (function () {
+const getNextId = (function () {
 	let clientId = 1;
 
-	/* eslint-disable-next-line no-shadow */
+	/* tslint:disable-next-line:no-shadowed-variable */
 	return function getNextId () {
 		return clientId++;
 	};

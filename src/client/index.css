@@ -22,6 +22,9 @@ header {
 main {
 	height: 100%;
 	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 #configButton {
@@ -77,24 +80,22 @@ main {
 .shabad {
 	font-family: GurbaniAkharHeavy;
 	font-size: 2.75rem;
+	text-align: center;
 }
 
 .shabad .line.selected {
 	background-color: var(--line-selected-bg-color);
 }
 
-@media (orientation: landscape) and (max-height: 400px) {
-	.shabad .line {
+@media (orientation: landscape) {
+	.shabad .line,
+	.line .end {
 		display: none;
 	}
 
 	.shabad .line.selected {
 		display: block;
 		background-color: inherit;
-	}
-
-	.shabad .line > div {
-		display: inline-block;
 	}
 
 	.shabad .gu {

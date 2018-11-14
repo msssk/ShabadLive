@@ -40,6 +40,7 @@ function fitContainer (node: HTMLElement, config?: Record<string, any>) {
 		tweakFactor: 1,
 	}, config);
 
+	node.style.display = 'inline-block';
 	const availableWidth = node.parentElement.clientWidth;
 	const newFontSize = calculateFontSize(node, availableWidth, config);
 	node.style.fontSize = `${newFontSize}px`;
@@ -52,6 +53,8 @@ function fitContainer (node: HTMLElement, config?: Record<string, any>) {
 		node.style.whiteSpace = 'normal';
 		node.textContent = fullText;
 	}
+
+	node.style.display = '';
 }
 
 export const font = {

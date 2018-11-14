@@ -1,8 +1,14 @@
-import { Component } from './Component';
 import { font } from '../../util/font';
+import { Component } from './Component';
 
 let hasScrollIntoViewIfNeeded = false;
 let hasScrollIntoView = false;
+
+const lineEndRegex = /(\||॥.*)$/;
+const lineEndGuRegex = /(\].*)$/;
+const fontFitConfig = {
+	tweakFactor: 0.92,
+};
 
 class Shabad extends Component {
 	_linesById: Record<string, HTMLElement>;
@@ -14,7 +20,7 @@ class Shabad extends Component {
 	 */
 	isViewer?: boolean;
 
-	constructor (node: HTMLElement, options: Record<string, any>) {
+	constructor (node: HTMLElement, options?: Record<string, any>) {
 		super(node, options);
 
 		if (this.isViewer) {
@@ -37,9 +43,8 @@ class Shabad extends Component {
 
 		if (this.isViewer) {
 			if (window.screen.orientation.type.includes('landscape')) {
-				const primaryLanguageNode = this._selectedLineNode.querySelector('.gu');
-				font.fitContainer(primaryLanguageNode as HTMLElement, {
-					tweakFactor: 0.92,
+				Array.prototype.forEach.call(this._selectedLineNode.children, function (node: HTMLElement) {
+					font.fitContainer(node, fontFitConfig);
 				});
 			}
 
@@ -65,6 +70,16 @@ class Shabad extends Component {
 
 		if (!this.isViewer) {
 			this.node.addEventListener('click', this._onClick.bind(this));
+		}
+	}
+
+	_formatLine (line: string, language: string) {
+		const replacementString = '<span class="end">$1</span>';
+		if (language === 'gu') {
+			return line.replace(lineEndGuRegex, replacementString);
+		}
+		else {
+			return line.replace(lineEndRegex, replacementString);
 		}
 	}
 
@@ -100,14 +115,14 @@ class Shabad extends Component {
 			lineWrapper.dataset.lineId = line.id;
 			this._linesById[line.id] = lineWrapper;
 
-			Object.entries(line).forEach(function (this: Shabad, [ lang, text ]) {
-				if (lang === 'id') {
+			Object.entries(line).forEach(function (this: Shabad, [ language, text ]) {
+				if (language === 'id') {
 					return;
 				}
 
 				const div = document.createElement('div');
-				div.className = lang;
-				div.textContent = text;
+				div.className = language;
+				div.innerHTML = this._formatLine(text, language);
 				lineWrapper.appendChild(div);
 			}, this);
 
