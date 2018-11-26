@@ -4,7 +4,7 @@ import { Component } from './Component';
 let hasScrollIntoViewIfNeeded = false;
 let hasScrollIntoView = false;
 
-const lineEndRegex = /(\||॥.*)$/;
+const lineEndRegex = /((\||॥).*)$/;
 const lineEndGuRegex = /(\].*)$/;
 const fontFitConfig = {
 	tweakFactor: 0.92,

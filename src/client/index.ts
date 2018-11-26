@@ -1,5 +1,6 @@
 import { ClientConfigForm } from './components/ClientConfigForm';
 import { Shabad } from './components/Shabad';
+import { transliterate } from '../util/transliterate';
 
 const STORAGE_KEY = 'shabad-live-data';
 const wsHost = `${window.location.hostname}:8081`;
@@ -20,7 +21,7 @@ const config: ClientConfig = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
 const shabadsById: Record<string, ShabadInfo> = Object.create(null);
 const shabadComponent = new Shabad(document.getElementById('shabad'), {
 	isViewer: true,
-	_onClick: function () {},
+	_onClick () {},
 });
 
 function getShabadById (shabadId: string): ShabadInfo {
@@ -50,6 +51,18 @@ socket.addEventListener('message', function (event) {
 		}
 
 		case 'shabad': {
+			if (config.languages.tl) {
+				message.shabad.lines = message.shabad.lines.map(function (line) {
+					line.tl = transliterate.toEnglish(line.gu);
+
+					if (!config.languages.gu) {
+						line.gu = undefined;
+					}
+
+					return line;
+				});
+			}
+
 			shabadsById[message.shabad.id] = message.shabad as ShabadInfo;
 			shabadComponent.shabad = message.shabad;
 

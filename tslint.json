@@ -40,7 +40,7 @@
 		"no-eval": true,
 		"no-inferrable-types": [ true, "ignore-params" ],
 		"no-invalid-this": true,
-		"no-magic-numbers": true,
+		"no-magic-numbers": [ true, -1, 0, 1, 2, 3, 5 ],
 		"no-misused-new": true,
 		"no-return-await": true,
 		"no-shadowed-variable": true,
